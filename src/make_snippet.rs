@@ -5,27 +5,23 @@ use std::{fs::File, path::PathBuf};
 use serde::Serialize;
 
 pub struct Snippet {
-    scope: String,
     path: PathBuf,
 }
 
 impl Snippet {
-    pub fn new(scope: String, path: PathBuf) -> Snippet {
-        Snippet { scope, path }
+    pub fn new(path: PathBuf) -> Snippet {
+        Snippet { path }
     }
 
     pub fn make_json(&mut self) -> String {
         #[derive(Debug, Serialize)]
         pub struct Json {
-            scope: String,
             prefix: String,
             body: Vec<String>,
         }
-        let scope = self.scope.clone();
         let prefix = self.path.file_name().unwrap().to_str().unwrap().to_string();
         let body = make_body(self.path.clone());
         let json = Json {
-            scope,
             prefix,
             body,
         };

@@ -1,8 +1,8 @@
 mod get_files;
-mod make_json;
+mod make_snippet;
 
 use get_files::VisitDir;
-use make_json::Snippet;
+use make_snippet::Snippet;
 
 use jsonxf::pretty_print;
 use structopt::StructOpt;
@@ -27,7 +27,7 @@ fn main() {
     snippets += "{";
     for path in paths {
         let name = path.file_name().unwrap().to_str().unwrap().to_string();
-        let mut snippet = Snippet::new(extention.to_string(), path);
+        let mut snippet = Snippet::new(path);
         let snippet = snippet.make_json();
         snippets += &format!("\"{}\":{},", name, snippet);
     }
